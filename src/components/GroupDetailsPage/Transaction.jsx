@@ -1,52 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-
-export default function Transaction({ setShowAddExpenseModal, transactions, setTransactions }) {
-  const userId = sessionStorage.getItem("userId");
-  const { groupId } = useParams();
-
-  
-
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/groups/${groupId}/${userId}/user-balances`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await response.json();
-        console.log("Fetched Data:", data);
-        
-        // Transform the data into the format required for rendering
-        const transformedData = data.balances.map((item) => ({
-          label: item.action === "give" ? `You owe ${item.toUser}` : `${item.fromUser} owes you`,
-          expenseName: item.expenseName,
-          expenseId: item.expenseId,
-          balanceId: item.balanceId,
-          amount: `€${item.amount.toFixed(2)}`,
-          status: item.action === "give" ? "borrowed" : "owed",
-          date: new Date().toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          }), // Placeholder date
-        }));
-        transformedData.totalOwed = data.totalOwed;
-        transformedData.groupName = data.groupName;
-        setTransactions(transformedData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTransactions();
-  }, [groupId, userId]);
-
+import  useStore from "../../store/store";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+export default function Transaction({ setShowAddExpenseModal}) {
+  const transactions = useStore((state) => state.transactions);
+  if(transactions.loading){
+    return  <p className='h-screen text-subHeading flex items-center justify-center dark:text-light-primaryText'>
+    <AiOutlineLoading3Quarters className='animate-spin' size={40} />
+  </p>
+  }
   return (
     <div className="mt-8 px-6">
       <div className="flex justify-between items-center mb-4">

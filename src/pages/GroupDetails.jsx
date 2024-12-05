@@ -4,83 +4,73 @@ import AddExpense from "../components/GroupDetailsPage/AddExpense";
 import { useParams } from "react-router-dom";
 import Transaction from "../components/GroupDetailsPage/Transaction";
 import Header from "../components/GroupDetailsPage/Header";
-
+import useStore from '../store/store';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'; 
 export default function GroupDetails() {
  
-  const [groupMembers, setGroupMembers] = useState([]);
   const [showAllMembers, setShowAllMembers] = useState(false);
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [showBalancesModal, setShowBalancesModal] = useState(false); 
+  const [showSettleUpModal, setShowSettleUpModal] = useState(false);
+  // transactions state
+  const userId = sessionStorage.getItem("userId");
+  const { groupId } = useParams();
+  const fetchTransactions = useStore((state) => state.fetchTransactions);
+  const transactions = useStore((state) => state.transactions);
+  const fetchGroupDetails = useStore((state) => state.fetchGroupDetails);
+  const loading = useStore((state) => state.transationLoading);
+  const groupMembers = useStore((state) => state.members);
   const [balances, setBalances] = useState(groupMembers);
-  const [showBalancesModal, setShowBalancesModal] = useState(false); // To control modal visibility
-  const [showSettleUpModal, setShowSettleUpModal] = useState(false); // To control settle-up modal visibility
-  const [transactions, setTransactions] = useState([]);
-  const {groupId} = useParams();
+  const settleExpense = useStore((state) => state.settleExpense);
+  console.log("sdfsf", transactions)
+  console.log("lora mera pehly", loading)
   useEffect(() => {
-    const fetchGroupDetails = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/groups/${groupId}/members`);
-        const data = await response.json();
-        setGroupMembers(data.members);
-        console.log(data.members);
-      } catch (error) {
-        console.error("Failed to fetch group details:", error);
-      }
-    };
-    fetchGroupDetails();
-  }, [groupId]);
+    fetchTransactions(groupId, userId);
+  }, [groupId, userId, fetchTransactions]);
+  useEffect(() => {
+    fetchGroupDetails(groupId);
+  }, [fetchGroupDetails, groupId]);
+
   
 
-  const handleAddExpense = (expenseDetails) => {
-    console.log("Expense added:", expenseDetails);
+  const handleAddExpense = () => {
+    fetchTransactions(groupId, userId);
     setShowAddExpenseModal(false);
     // Update balances logic here
   };
 
   const handleCloseBalancesModal = () => {
+    alert('Not implemented yet');
     setShowBalancesModal(false);
   };
 
   const handleCloseSettleUpModal = () => {
     setShowSettleUpModal(false); // Close settle-up modal
+    fetchTransactions(groupId, userId);
   };
 
   const handleSettleSelectedExpense = async (expenseId, balanceId) => {
-    console.log("Expense settled:", expenseId, balanceId);
-    setShowSettleUpModal(false); // Close the settle-up modal
-  
-    try {
-      const response = await fetch('http://localhost:3000/api/expenses/settle-up', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ expenseId, balanceId }),
-      });
-  
-      const data = await response.json();
-        // Remove the settled transaction from the state
-        setTransactions((prevTransactions) =>
-          prevTransactions.filter(
-            (transaction) => transaction.expenseId !== expenseId || transaction.balanceId !== balanceId
-          )
-        );
-    } catch (error) {
-      // Handle any network or unexpected errors
-      console.error('Unexpected error:', error);
-    }
+    fetchTransactions(groupId, userId);
+    setShowSettleUpModal(false); 
+    settleExpense(expenseId, balanceId);
   };
-  
-  
 
   const visibleMembers = showAllMembers ? groupMembers : groupMembers.slice(0, 3);
-
+  if (loading) {
+    return (
+      <p className='h-screen text-subHeading flex items-center justify-center dark:text-light-primaryText'>
+      <AiOutlineLoading3Quarters className='animate-spin' size={40} />
+    </p>
+    );
+  }
+  
   return (
     <div className="pt-24 min-h-screen text-black">
       {/* Header Section */}
      <Header setShowSettleUpModal = {setShowSettleUpModal} setShowBalancesModal = {setShowBalancesModal} visibleMembers = {visibleMembers} groupMembers = {groupMembers} showAllMembers = {showAllMembers} setShowAllMembers= {setShowAllMembers} transactions={transactions}/>
 
       {/* Transactions Section */}
-     <Transaction setShowAddExpenseModal={setShowAddExpenseModal} transactions={transactions} setTransactions={setTransactions}/>
+     <Transaction setShowAddExpenseModal={setShowAddExpenseModal} transactions={transactions} />
 
       {/* Add Expense Modal */}
       {showAddExpenseModal && (
@@ -119,34 +109,37 @@ export default function GroupDetails() {
 
       {/* Settle Up Modal */}
       {showSettleUpModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[400px]">
-            <h3 className="text-lg font-semibold mb-4">Select Expense to Settle</h3>
-            <ul>
-              {transactions.map((expense, index) => (
-                <li key={index} className="flex justify-between py-2 border-b">
-                  <span>{expense.label}</span>
-                  <span className="font-semibold">{expense.amount}</span>
-                  <button
-                    onClick={() => handleSettleSelectedExpense(expense.expenseId, expense.balanceId)}
-                    className="ml-4 bg-black text-white text-sm py-1 px-4 rounded-full"
-                  >
-                    Settle
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <div className="flex justify-end mt-4">
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-[400px]">
+      <h3 className="text-lg font-semibold mb-4">Select Expense to Settle</h3>
+      <div className="max-h-64 overflow-y-auto">
+        <ul>
+          {transactions.length > 0 ? transactions.map((expense, index) => (
+            <li key={index} className="flex justify-between py-2 border-b">
+              <span>{expense.label}</span>
+              <span className="font-semibold">{expense.amount}</span>
               <button
-                className="border-2 border-black  text-sm py-1 px-4 rounded-full"
-                onClick={handleCloseSettleUpModal}
+                onClick={() => handleSettleSelectedExpense(expense.expenseId, expense.balanceId)}
+                className="ml-4 bg-black text-white text-sm py-1 px-4 rounded-full"
               >
-                Close
+                Settle
               </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </li>
+          )) : <p className="text-center">No expenses to settle.</p>}
+        </ul>
+      </div>
+      <div className="flex justify-end mt-4">
+        <button
+          className="border-2 border-black text-sm py-1 px-4 rounded-full"
+          onClick={handleCloseSettleUpModal}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

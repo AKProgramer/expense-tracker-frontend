@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -98,7 +99,7 @@ export default function AddExpense({ members, onClose, onSubmit }) {
       };
 
       try {
-        const response = await fetch("http://localhost:3000/api/expenses/add", {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/expenses/add`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -132,7 +133,7 @@ export default function AddExpense({ members, onClose, onSubmit }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter total amount"
+            placeholder="Enter Expense Name"
             className={`block w-full border-2 rounded-full p-2 ${
               errors.name ? "border-red-500" : ""
             }`}

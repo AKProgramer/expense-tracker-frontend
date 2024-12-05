@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 
-
 const SingleCard = ({ title, subtitle, number, members }) => {
   return (
     <div className="flex gap-5">
@@ -12,17 +11,20 @@ const SingleCard = ({ title, subtitle, number, members }) => {
         <p className="text-lg text-gray-500">{subtitle}</p>
         <div>
           <h4 className="text-lg font-semibold mt-4">Members:</h4>
-          <ul className="list-disc list-inside text-gray-600">
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
             {members.length > 0 ? (
               members.map((member, index) => (
-                <li key={index} className="text-sm">
+                <span
+                  key={index}
+                  className="text-sm text-gray-700 font-semibold border-2 border-black px-2 py-1 rounded-full"
+                >
                   {member}
-                </li>
+                </span>
               ))
             ) : (
               <p className="text-sm text-gray-500">No members available</p>
             )}
-          </ul>
+          </div>
         </div>
       </div>
     </div>

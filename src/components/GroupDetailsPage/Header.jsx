@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
+import useStore from "../../store/store";
 
-
-export default function Header({setShowSettleUpModal, setShowBalancesModal, groupMembers, showAllMembers, setShowAllMembers, transactions}) {
-    console.log("Hello", transactions);
+export default function Header({setShowSettleUpModal, setShowBalancesModal, groupMembers, showAllMembers, setShowAllMembers}) {
+  const transactions = useStore((state) => state.transactions);
+  if(transactions.loading){
+    return <div>Loading...</div>
+  }
   const handleSettleUp = () => {
         setShowSettleUpModal(true); // Show the settle-up modal
       };
@@ -11,6 +14,7 @@ export default function Header({setShowSettleUpModal, setShowBalancesModal, grou
         // Open the balances modal
         setShowBalancesModal(true);
       };
+     
   return (
     <div className="border-2 rounded-xl border-black text-center relative bg-white p-6 mx-6">
     <div className="absolute top-[-30px] left-1/2 transform -translate-x-1/2">
@@ -22,7 +26,7 @@ export default function Header({setShowSettleUpModal, setShowBalancesModal, grou
     </div>
     <h1 className="font-bold text-xl mt-12">{transactions.groupName}</h1>
     <p className="mt-2">
-      You are owed <span className="font-semibold">{Math.round(transactions.totalOwed)}</span> overall
+      You are owed <span className="font-semibold">{transactions.length > 0 ? Math.round(transactions.totalOwed) : '0'}</span> overall
     </p>
     <p className="text-sm text-gray-600 mt-2">
       {transactions.map((member, index) => (

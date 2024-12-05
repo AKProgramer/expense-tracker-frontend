@@ -2,7 +2,6 @@
 import StatCards from "../components/StatCards"; // Correct path for StatCards component
 import RecentExpenses from "../components/RecentExpenses"; // Correct path for GroupDetailsTable component
 import PersonalInformation from "../components/PersonalInformation";
-import CardSlider from "../components/CardSlider";
 import Nav from "../components/Nav";
 import CardSwiper from "../components/CardSwiper";
 

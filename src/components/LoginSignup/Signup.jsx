@@ -1,9 +1,9 @@
+/* eslint-disable no-undef */
 import { useState } from 'react';
 import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
-import style from '../../pages/LoginSignup/LoginSignup.module.css'; // Importing the CSS module
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import '../../pages/LoginSignup/LoginSignup.css';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -12,11 +12,12 @@ export default function Signup() {
   const [fullName, setFullName] = useState('');
 
   const navigate = useNavigate();
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:3000/api/users/register`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,7 +26,7 @@ export default function Signup() {
       });
 
       const data = await res.json();
-      if(res.status===409){
+      if (res.status === 409) {
         toast.error(data.message);
         return;
       }
@@ -36,7 +37,7 @@ export default function Signup() {
         navigate('/');
         toast.success('Signup successful!');
       } else {
-        console.log(data.error)
+        console.log(data.error);
         // Handle errors
         toast.error(data.message);
       }
@@ -47,10 +48,10 @@ export default function Signup() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={style['sign-up-form']}>
-      <h2 className={style.title}>Sign Up</h2>
-      <div className={style['input-field']}>
-        <FaUser className={style.icon} />
+    <form onSubmit={handleSubmit} className="sign-up-form">
+      <h2 className="title">Sign Up</h2>
+      <div className="input-field">
+        <FaUser className="icon" />
         <input
           type="text"
           placeholder="Full name"
@@ -58,8 +59,8 @@ export default function Signup() {
           onChange={(e) => setFullName(e.target.value)}
         />
       </div>
-      <div className={style['input-field']}>
-        <FaUser className={style.icon} />
+      <div className="input-field">
+        <FaUser className="icon" />
         <input
           type="text"
           placeholder="Username"
@@ -68,8 +69,8 @@ export default function Signup() {
         />
       </div>
 
-      <div className={style['input-field']}>
-        <FaEnvelope className={style.icon} />
+      <div className="input-field">
+        <FaEnvelope className="icon" />
         <input
           type="email"
           placeholder="Email"
@@ -78,8 +79,8 @@ export default function Signup() {
         />
       </div>
 
-      <div className={style['input-field']}>
-        <FaLock className={style.icon} />
+      <div className="input-field">
+        <FaLock className="icon" />
         <input
           type="password"
           placeholder="Password"
@@ -88,7 +89,7 @@ export default function Signup() {
         />
       </div>
 
-      <input type="submit" value="Sign Up" className={`${style.btn} ${style.solid}`} />
+      <input type="submit" value="Sign Up" className="bg-black text-white px-10 mt-3 py-[14px] rounded-full hover:underline" />
     </form>
   );
 }

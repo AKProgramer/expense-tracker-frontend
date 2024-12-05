@@ -1,8 +1,16 @@
 import { AiFillBell } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const token = sessionStorage.getItem("token");
+  const navigate = useNavigate(); // To programmatically navigate after logout
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("token");
+    navigate("/register"); // Redirect to login page after logout
+  };
+
   return (
     <div className="flex border-2 border-white w-full fixed items-center justify-between py-2 px-4 bg-glass rounded-full z-50">
       {/* Left Section */}
@@ -12,16 +20,19 @@ const Header = () => {
           src="https://pngimg.com/uploads/letter_e/letter_e_PNG50.png"
           alt=""
         />
-        <h1 className="m-0 fw-bold text-lg font-semibold ml-2">XPENSE</h1>
+        <Link to={'/'}>
+            <h1 className="m-0 fw-bold text-lg font-semibold ml-2">XPENSE</h1>
+        </Link>
       </div>
 
       {/* Right Section */}
       <div className="right flex items-center gap-4 sm:gap-2">
-      <Link to="/register">
-          <button className="py-2 text-sm border-white border-2 px-4 bg-black rounded-full text-white">
-           { token ? 'Logout' : 'Login'}
-          </button>
-        </Link>
+        <button
+          onClick={handleLogout} // Trigger logout when button is clicked
+          className="py-2 text-sm border-white border-2 px-4 bg-black rounded-full text-white"
+        >
+          { token ? 'Logout' : 'Login' }
+        </button>
         <div className="flex items-center justify-center w-10 h-10 border-2 border-black rounded-full bg-white">
           <AiFillBell className="text-xl" />
         </div>

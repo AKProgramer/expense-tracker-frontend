@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import GroupCard from "../components/GroupPage/GroupCard";
@@ -5,7 +6,7 @@ import { MdFamilyRestroom, MdPerson, MdHome } from "react-icons/md";
 const fetchGroups = async (userId, token) => {
   
  
-  const response = await fetch(`http://localhost:3000/api/groups/${userId}`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/groups/${userId}`, {
     method: "GET",
     headers: {
       "Authorization": `${token}`, 

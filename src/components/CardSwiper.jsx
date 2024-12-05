@@ -1,58 +1,42 @@
-import  { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import  { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-
+import useStore from "../store/store";
 import "swiper/css";
 import SingleCard from "./SingleCard";
-
-const fetchGroups = async (userId) => {
-  const token = sessionStorage.getItem("token");
-  if (!token) {
-    throw new Error("Authentication token not found");
-  }
-
-  const response = await fetch(`http://localhost:3000/api/groups/${userId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `${token}`,
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch groups");
-  }
-
-  return response.json();
-};
-
 const CardSwiper = () => {
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const  groups  = useStore((state)=>state.groups);
+ 
+  const fetchGroups = useStore((state)=>state.fetchGroups);
+  const error = useStore((state)=>state.error);
   const userId = sessionStorage.getItem("userId");
-
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["groups", userId],
-    queryFn: () => fetchGroups(userId),
-    enabled: !!userId,
-  });
-
-  if (!userId || isError) {
-    return <div>{error?.message || "Please log in to view your groups."}</div>;
+  const token = sessionStorage.getItem("token");
+  useEffect(() => {
+    if (userId && token) {
+      fetchGroups(userId, token); // Trigger fetching groups using Zustand
+    }
+  }, [userId, token, fetchGroups]);
+  if (!userId) {
+    return <div>Please log in to view your groups.</div>;
   }
 
-  if (isLoading) {
+  if (groups.length == 0) {
     return <div>Loading groups...</div>;
   }
 
-  const cards = data.groups.map((group) => ({
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  const cards = groups.groups.map((group) => ({
     title: group.groupName,
     subtitle: group.groupType,
     number: group.members.length,
     members: group.members.map((member) => member.username),
   }));
+
 
   const handleNext = () => {
     if (swiperInstance) {

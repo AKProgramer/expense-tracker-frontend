@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
-
+import { useEffect } from "react";
+import useStore from "../../store/store";
 export default function MemberManagement({
   isPopupVisible,
   togglePopup,
@@ -8,29 +8,14 @@ export default function MemberManagement({
   setSearchText,
   handleAddMember,
 }) {
-  const [users, setUsers] = useState([]);  // State to store fetched users
-  const [loading, setLoading] = useState(true);  // State to handle loading state
-  const [error, setError] = useState(null);  // State to handle errors
-
+  const fetchUsers = useStore((state)=>state.fetchUsers);  
+  const users = useStore((state)=>state.users);
+  const loading = useStore((state)=>state.loading);
+  const error = useStore((state)=>state.error);
   // Fetch users from the API when the component mounts
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/users/getAllUsers");
-        if (!response.ok) {
-          throw new Error("Failed to fetch users");
-        }
-        const data = await response.json();
-        setUsers(data);  // Set the users data to state
-      } catch (err) {
-        setError(err.message);  // Set error if any occurs
-      } finally {
-        setLoading(false);  // Set loading to false once the fetch is complete
-      }
-    };
-
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   // Filter users based on search text
   const filteredUsers = users.filter((user) =>

@@ -1,17 +1,23 @@
+/* eslint-disable no-undef */
 import { useState } from 'react';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import style from '../../pages/LoginSignup/LoginSignup.module.css'; // Importing the CSS module
+import '../../pages/LoginSignup/LoginSignup.css'; // Importing the regular CSS file
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  function handleGoogleLogin() {
+    console.log('Google login');
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/users/auth/google`;
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const res = await fetch(`${`http://localhost:3000/api/users`}/login`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -25,7 +31,6 @@ export default function Login() {
         if (data.message === 'Invalid credentials') {
           toast.error('Invalid email or password. Please try again.');
         }
-       
         return;
       }
       if (data.error) {
@@ -39,17 +44,16 @@ export default function Login() {
         navigate('/');
       }
     } catch (error) {
-     
       toast.error('An error occurred. Please try again later.');
       console.error('Error:', error);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className={style['sign-in-form']}>
-      <h2 className={style.title}>Sign In</h2>
-      <div className={style['input-field']}>
-        <FaUser className={style.icon} />
+    <form onSubmit={handleSubmit} className="sign-in-form">
+      <h2 className="title">Sign In</h2>
+      <div className="input-field">
+        <FaUser className="icon" />
         <input
           type="email"
           placeholder="Email"
@@ -57,8 +61,8 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div className={style['input-field']}>
-        <FaLock className={style.icon} />
+      <div className="input-field">
+        <FaLock className="icon" />
         <input
           type="password"
           placeholder="Password"
@@ -66,11 +70,11 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <input type="submit" value={'Login'} className={`${style.btn} ${style.solid}`} />
-      <p className={style['social-text']}>Or Sign in with social platforms</p>
-      <div className={style['social-media']}>
-        <div className={style['social-icon']}>
-          <FcGoogle className={style.googleIcon} /> Sign in with Google
+      <input type="submit" value="Login" className="bg-black text-white px-32 mt-3 py-3 rounded-full hover:underline" />
+      <p className="social-text">Or Sign in with social platforms</p>
+      <div className="social-media">
+        <div className="social-icon" onClick={handleGoogleLogin}>
+          <FcGoogle className="googleIcon" /> Sign in with Google
         </div>
       </div>
     </form>

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import MemberManagement from "./MemeberManagement";
@@ -36,7 +37,7 @@ export default function Form({
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/groups/create", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/groups/create`, {
         method: "POST",
         headers: {
           "Authorization": sessionStorage.getItem("token"),
