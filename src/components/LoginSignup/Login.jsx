@@ -11,7 +11,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   function handleGoogleLogin() {
-    console.log('Google login');
+    alert('Not working yet want to contribute to the project?');
     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/users/auth/google`;
   }
   async function handleSubmit(e) {

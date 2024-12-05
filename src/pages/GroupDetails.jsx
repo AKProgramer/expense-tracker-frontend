@@ -22,8 +22,6 @@ export default function GroupDetails() {
   const groupMembers = useStore((state) => state.members);
   const [balances, setBalances] = useState(groupMembers);
   const settleExpense = useStore((state) => state.settleExpense);
-  console.log("sdfsf", transactions)
-  console.log("lora mera pehly", loading)
   useEffect(() => {
     fetchTransactions(groupId, userId);
   }, [groupId, userId, fetchTransactions]);
