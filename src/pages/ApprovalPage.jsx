@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TableHeader from "../components/ApprovalPage/TableHeader";
 import TableRow from "../components/ApprovalPage/TableRow";
-import ConfirmModal from "../components/ApprovalPage/ConfirmModal";
+import ConfirmModal from "../components/ApprovalPage/confirmModal";
 
 const initialData = [
   {
