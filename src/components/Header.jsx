@@ -1,10 +1,15 @@
 import { AiFillBell } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+ 
+
+ 
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate(); // To programmatically navigate after logout
-
+  const handleNavigation = (path) => {
+    navigate(path); // Navigate to the given path
+  };
   const handleLogout = () => {
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("token");
@@ -20,9 +25,9 @@ const Header = () => {
           src="https://pngimg.com/uploads/letter_e/letter_e_PNG50.png"
           alt=""
         />
-        <Link to={'/'}>
+        <button onClick={handleNavigation('/')}>
             <h1 className="m-0 fw-bold text-lg font-semibold ml-2">XPENSE</h1>
-        </Link>
+        </button>
       </div>
 
       {/* Right Section */}

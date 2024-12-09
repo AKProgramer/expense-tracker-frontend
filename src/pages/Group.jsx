@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GroupCard from "../components/GroupPage/GroupCard";
 import { MdFamilyRestroom, MdPerson, MdHome } from "react-icons/md";
 const fetchGroups = async (userId, token) => {
@@ -20,6 +20,11 @@ const fetchGroups = async (userId, token) => {
 };
 
 const Group = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const handleNavigation = (path) => {
+    navigate(path); // Navigate to the given path
+  };
   const token = sessionStorage.getItem('token');
   const userId = sessionStorage.getItem('userId'); // Replace this with the user ID stored in the session or context
   const { data, isLoading, isError, error } = useQuery({
@@ -57,12 +62,12 @@ const Group = () => {
     <div className="p-6 bg-gray-100 text-black min-h-screen font-poppins pt-24">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Groups</h1>
-        <Link
-          to="/create-group"
+        <button
+          onClick={() => handleNavigation("/create-group")}
           className="bg-black hover:bg-blue-600 text-white py-2 px-4 rounded-full"
         >
           + Create Group
-        </Link>
+        </button>
       </div>
 
      {data.groups.length > 0 && <GroupCard groups={groups} />}
