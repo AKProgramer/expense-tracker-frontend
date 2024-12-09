@@ -10,31 +10,31 @@ const Nav = () => {
     <nav
       className="nav flex w-2/3 gap-2 border-2 border-black justify-between px-6 py-2 sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5 bg-white shadow-lg rounded-full fixed bottom-3 left-1/2 transform -translate-x-1/2 text-black"
     >
-      <Link to="/" aria-label="Home">
-        <button className="flex flex-col gap-1 items-center cursor-pointer hover:underline bg-transparent border-none">
-          <MdDashboard className="text-lg" />
-          <span className="under text-sm font-semibold">Home</span>
+      <Link to="/" aria-label="Home" className="flex flex-col items-center">
+        <button className="flex flex-col gap-1 items-center bg-transparent border-none text-black hover:underline">
+          <MdDashboard className="text-black text-base sm:text-lg md:text-xl lg:text-2xl" />
+          <span className="text-sm sm:text-base font-semibold">Home</span>
         </button>
       </Link>
 
-      <Link to="/groups" aria-label="Groups">
-        <button className="flex flex-col gap-1 items-center cursor-pointer hover:underline bg-transparent border-none">
-          <HiUserGroup className="text-lg" />
-          <span className="under text-sm font-semibold">Groups</span>
+      <Link to="/groups" aria-label="Groups" className="flex flex-col items-center">
+        <button className="flex flex-col gap-1 items-center bg-transparent border-none text-black hover:underline">
+          <HiUserGroup className="text-black text-base sm:text-lg md:text-xl lg:text-2xl" />
+          <span className="text-sm sm:text-base font-semibold">Groups</span>
         </button>
       </Link>
 
-      <Link to="/approvals" aria-label="Approvals">
-        <button className="flex flex-col gap-1 items-center cursor-pointer hover:underline bg-transparent border-none">
-          <BsFillClipboard2CheckFill className="text-lg" />
-          <span className="under text-sm font-semibold">Approvals</span>
+      <Link to="/approvals" aria-label="Approvals" className="flex flex-col items-center">
+        <button className="flex flex-col gap-1 items-center bg-transparent border-none text-black hover:underline">
+          <BsFillClipboard2CheckFill className="text-black text-base sm:text-lg md:text-xl lg:text-2xl" />
+          <span className="text-sm sm:text-base font-semibold">Approvals</span>
         </button>
       </Link>
 
-      <Link to="/profile" aria-label="Profile">
-        <button className="flex flex-col gap-1 items-center cursor-pointer hover:underline bg-transparent border-none">
-          <FaUserCog className="text-lg" />
-          <span className="under text-sm font-semibold">Profile</span>
+      <Link to="/profile" aria-label="Profile" className="flex flex-col items-center">
+        <button className="flex flex-col gap-1 items-center bg-transparent border-none text-black hover:underline">
+          <FaUserCog className="text-black text-base sm:text-lg md:text-xl lg:text-2xl" />
+          <span className="text-sm sm:text-base font-semibold">Profile</span>
         </button>
       </Link>
     </nav>
