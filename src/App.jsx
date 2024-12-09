@@ -6,9 +6,7 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 function App() {
   const navigate = useNavigate(); // Initialize useNavigate hook
-  const handleNavigation = (path) => {
-    navigate(path); // Navigate to the given path
-  };
+   
   const [showPopup, setShowPopup] = useState(false);
  
   const urlParams = new URLSearchParams(window.location.search);
