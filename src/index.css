@@ -12,14 +12,6 @@ body{
   height: 100vh;
   width: 100%;
 }
-a {
-  text-decoration: none;
-  color: black;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 
 
 .bg-glass {
@@ -31,7 +23,7 @@ a:hover {
   color: #000; /* Default text color */
 }
 
-button:hover, Link:hover{
+button:hover{
   text-decoration: underline !important;
 }
 
