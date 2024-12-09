@@ -12,6 +12,15 @@ body{
   height: 100vh;
   width: 100%;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 
 .bg-glass {
   background-color: rgba(217, 217, 217, 0.3); /* Semi-transparent background */
@@ -22,7 +31,7 @@ body{
   color: #000; /* Default text color */
 }
 
-button:hover{
+button:hover, Link:hover{
   text-decoration: underline !important;
 }
 
