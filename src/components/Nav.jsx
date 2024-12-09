@@ -4,6 +4,7 @@ import { MdDashboard } from "react-icons/md";
 import { HiUserGroup } from "react-icons/hi";
 import { FaUserCog } from "react-icons/fa";
 import { BsFillClipboard2CheckFill } from "react-icons/bs";
+import "../index.css";
 
 const Nav = () => {
   return (
