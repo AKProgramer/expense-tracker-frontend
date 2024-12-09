@@ -8,7 +8,7 @@ import { BsFillClipboard2CheckFill } from "react-icons/bs";
 const Nav = () => {
   return (
     <nav
-      className="nav flex w-2/3 gap-2 border-2 border-black justify-between px-6 py-2 sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5 bg-white shadow-lg rounded-full fixed bottom-3 left-1/2 transform -translate-x-1/2"
+      className="nav flex w-2/3 gap-2 border-2 border-black justify-between px-6 py-2 sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5 bg-white shadow-lg rounded-full fixed bottom-3 left-1/2 transform -translate-x-1/2 text-black"
     >
       <Link
         to="/"
@@ -25,7 +25,7 @@ const Nav = () => {
         className="flex flex-col gap-1 items-center cursor-pointer hover:underline"
       >
         <HiUserGroup className="text-lg" />
-        <span className="under text-sm font-semibold">Groups</span>
+        <span className="under text-sm font-semibold hover:underline">Groups</span>
       </Link>
 
       <Link
@@ -34,7 +34,7 @@ const Nav = () => {
         className="flex flex-col gap-1 items-center cursor-pointer hover:underline"
       >
         <BsFillClipboard2CheckFill className="text-lg" />
-        <span className="under text-sm font-semibold">Approvals</span>
+        <span className="under text-sm font-semibold hover:underline">Approvals</span>
       </Link>
 
       <Link
@@ -43,7 +43,7 @@ const Nav = () => {
         className="flex flex-col gap-1 items-center cursor-pointer hover:underline"
       >
         <FaUserCog className="text-lg" />
-        <span className="under text-sm font-semibold">Profile</span>
+        <span className="under text-sm font-semibold text-black">Profile</span>
       </Link>
     </nav>
   );
