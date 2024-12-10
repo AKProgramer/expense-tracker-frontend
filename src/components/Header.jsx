@@ -25,7 +25,7 @@ const Header = () => {
           src="https://pngimg.com/uploads/letter_e/letter_e_PNG50.png"
           alt=""
         />
-        <button onClick={handleNavigation('/')}>
+        <button onClick={()=>handleNavigation('/')}>
             <h1 className="m-0 fw-bold text-lg font-semibold ml-2">XPENSE</h1>
         </button>
       </div>

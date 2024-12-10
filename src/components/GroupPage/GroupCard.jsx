@@ -46,7 +46,7 @@ export default function GroupCard({groups}) {
           </p>
         </div>
         <button
-          onClick={handleNavigation(`/group-details/${group.id}`)}
+          onClick={()=>handleNavigation(`/group-details/${group.id}`)}
           className="block text-center hover:bg-black hover:text-white border-2 border-black py-2 px-4 rounded-full"
         >
           View Details
