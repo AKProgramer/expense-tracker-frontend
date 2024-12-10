@@ -9,7 +9,7 @@ const Nav = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleNavigation = (path) => {
-    navigate(path); // Navigate to the given path
+    navigate(path) // Navigate to the given path
   };
 
   return (

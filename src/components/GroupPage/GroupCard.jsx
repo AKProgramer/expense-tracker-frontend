@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 export default function GroupCard({groups}) {
   const navigate = useNavigate(); // Initialize useNavigate hook
   const handleNavigation = (path) => {
-    navigate(path); // Navigate to the given path
+    navigate(path)    // Navigate to the given path
   };
   return (
     <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 font-poppins">
@@ -46,7 +46,7 @@ export default function GroupCard({groups}) {
           </p>
         </div>
         <button
-          onClick={() => handleNavigation(`/group-details/${group.id}`)}
+          onClick={handleNavigation(`/group-details/${group.id}`)}
           className="block text-center hover:bg-black hover:text-white border-2 border-black py-2 px-4 rounded-full"
         >
           View Details

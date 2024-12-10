@@ -8,7 +8,7 @@ const Header = () => {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate(); // To programmatically navigate after logout
   const handleNavigation = (path) => {
-    navigate(path); // Navigate to the given path
+   navigate(path);     // Navigate to the given path
   };
   const handleLogout = () => {
     sessionStorage.removeItem("userId");

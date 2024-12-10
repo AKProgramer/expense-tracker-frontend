@@ -23,7 +23,7 @@ const Group = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleNavigation = (path) => {
-    navigate(path); // Navigate to the given path
+    navigate(path) // Navigate to the given path
   };
   const token = sessionStorage.getItem('token');
   const userId = sessionStorage.getItem('userId'); // Replace this with the user ID stored in the session or context

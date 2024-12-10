@@ -1,37 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import Nav from './components/Nav';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+
 function App() {
-  const navigate = useNavigate(); // Initialize useNavigate hook
-   
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
- 
+
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get('token');
   const userId = urlParams.get('userId');
 
-  useEffect(() => {
-    if (token && userId) {
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('userId', userId);
-      window.history.replaceState({}, document.title, "/"); 
-    } else {
-      const storedToken = sessionStorage.getItem('token');
-      const storedUserId = sessionStorage.getItem('userId');
-
-      if (!storedToken || !storedUserId) {
-        navigate('/');
+    // Handle token and userId from URL
+    useEffect(() => {
+      // Only show the popup if there's no token stored and it's not already showing
+      if (!sessionStorage.getItem('token')) {
+        setShowPopup(true);
       }
-    }
-  }, [navigate, token, userId]);
+      // Handle token and userId from URL
+      if (token && userId) {
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('userId', userId);
+        window.history.replaceState({}, document.title, "/");
+      } else {
+        const storedToken = sessionStorage.getItem('token');
+        const storedUserId = sessionStorage.getItem('userId');
+        if (!storedToken || !storedUserId) {
+          navigate('/');
+        }
+      }
+    }, [navigate, token, userId]);
 
-  // Show popup if there is no token
-  if (!sessionStorage.getItem('token') && !showPopup) {
-    setShowPopup(true);
-  }
 
   const handleAgree = () => {
     setShowPopup(false);
@@ -62,12 +62,12 @@ function App() {
                 Close
               </button>
               <Link to="/register">
-              <button
-                onClick={handleAgree}
-                className="bg-black text-white px-4 py-2 rounded-full"
-              >
-                Go to Register
-              </button>
+                <button
+                  onClick={handleAgree}
+                  className="bg-black text-white px-4 py-2 rounded-full"
+                >
+                  Go to Register
+                </button>
               </Link>
             </div>
           </div>
